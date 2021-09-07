@@ -1,1 +1,9 @@
- 
+.panel {
+    margin-top: 0.25rem;
+}
+.panel-header .panel-control input[type="checkbox"] {
+    margin-top: 0.5rem;
+}
+.panel-header .panel-actions {
+    width: 100%;
+}
