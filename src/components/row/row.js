@@ -1,8 +1,8 @@
 import React    from 'react'
 import          './row.css'
 
-const Row = (props) => {
-    const { item: { id, label }, unique, source, checked, onCheckItem } = props
+const Row = props => {
+    const { item: { id, label }, unique, checked, onCheckItem } = props
     return (
         <li key={ id }
             className="list-group-item d-flex align-items-center" >
@@ -11,12 +11,12 @@ const Row = (props) => {
                 <div className="form-check panel-control">
                     <input className="form-check-input"
                             type="checkbox"
-                            id={ `select${source}_${id}_${unique}` }
+                            id={ `select${id}_${unique}` }
                             itemkey={ id }
                             onChange={ e => { onCheckItem(e.target.getAttribute("itemkey")*1) } }
                             checked={ checked } />
                     <label className="form-check-label"
-                            htmlFor={ `select${source}_${id}_${unique}` } >
+                            htmlFor={ `select${id}_${unique}` } >
                             { label }</label>
                 </div>
                 <span>

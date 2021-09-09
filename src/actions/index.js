@@ -1,10 +1,12 @@
-const _dataLoaded = (payload) => ({
-    type: 'DATA_LOADED',
+import consts from '../utils/const'
+
+const _dataLoaded = payload => ({
+    type: consts.data_loaded,
     payload
 })
 
-const _moveItems = (payload) => ({
-    type: 'MOVE_ITEMS',
+const _moveItems = payload => ({
+    type: consts.move_items,
     payload
 })
 

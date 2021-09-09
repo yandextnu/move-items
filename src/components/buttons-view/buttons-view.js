@@ -1,21 +1,27 @@
 import React    from 'react'
 import          './buttons-view.css'
 
-const Button = ({ label, fn }) => {
-    return ( <button className="btn btn-primary btn-sm m-xl-1"
-                    onClick={ fn }>
-                Move {label}
-            </button> )
-}
+const clickLeftDefault = () => {}
+const clickRightDefault = () => {}
 
-const ButtonsView = ({ data: { onButtonClick, ids, source, routes } }) => {
-    if(!routes || routes.length === 0) return null
+const ButtonsView = ({ onClickLeft, onClickRight }) => {
     return (<React.Fragment>
-                { Object.keys(routes).map(key => (routes[key]
-                                                    ? <Button key={ `${source}${key}` } label={ key }
-                                                                fn={ () => onButtonClick({ids, from: source, to: routes[key]}) }
-                                                        />
-                                                    : null)) }
+                { onClickLeft !== clickLeftDefault ? ( <button className="btn btn-primary btn-sm m-xl-1"
+                                                                onClick={ onClickLeft }>
+                                                                Move left
+                                                            </button> )
+                                                        : null }
+                { onClickRight !== clickRightDefault ? ( <button className="btn btn-primary btn-sm m-xl-1"
+                                                            onClick={ onClickRight }>
+                                                            Move right
+                                                        </button> )
+                                                    : null }
             </React.Fragment>)
 }
+
+ButtonsView.defaultProps = {
+    onClickLeft: clickLeftDefault,
+    onClickRight: clickRightDefault
+}
+
 export default ButtonsView

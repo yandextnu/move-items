@@ -12,10 +12,10 @@ class App extends Component {
 
     componentDidMount() {
         const { _dataLoaded, _dataService } = this.props
-        _dataService.getData().then(data => _dataLoaded(data))
+        _dataService.getData().then(_dataLoaded)
     }
 
-    getDataKeys = () => Object.keys(this.props).filter(key => key.indexOf('_') !== 0)
+    getDataKeys = () => Object.keys(this.props).filter(key => key[0] !== '_')
 
     getKeySiblings = key => {
         const   dataKeys    = this.getDataKeys(),
@@ -28,8 +28,7 @@ class App extends Component {
     getPanelData = source => ({
                                 source,
                                 items:              this.props[source],
-                                routes:             this.getKeySiblings(source),
-                                onButtonClick:      this.onMove
+                                routes:             this.getKeySiblings(source)
                             })
 
     render () {
@@ -59,7 +58,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {...state};
+    return {...state}
   };
 
 const mapDispatchToProps = {

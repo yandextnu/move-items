@@ -3,7 +3,7 @@ import { DataServiceConsumer }  from '../data-service-context'
 
 const withDataService = Wrapped => {
 
-  return (props) => {
+  return props => {
     return (
         <DataServiceConsumer>
             { dataService => {

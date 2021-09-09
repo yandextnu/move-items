@@ -1,6 +1,7 @@
 import React, { Component }     from 'react'
-import { connect }              from 'react-redux';
-import { _moveItems }           from '../../actions';
+import { connect }              from 'react-redux'
+import { v4 as uuidv4 }         from 'uuid'
+import { _moveItems }           from '../../actions'
 import Row                      from '../row'
 import ButtonsView              from '../buttons-view'
 import                          './panel.css'
@@ -12,14 +13,13 @@ class Panel extends Component {
         selected: []
     }
 
-    getUniqeKey = () => (`${Math.floor(Math.random() * 1000)}${Math.floor(Math.random() * 1000)}`)
+    getUniqeKey = () => (uuidv4().replace(/-/gi, ''))
 
     componentDidMount() {
         this.setState( ({ unique }) => ( { unique: unique ?? this.getUniqeKey() } ) )
     }
 
     onCheckItem = id => {
-        console.log(id)
         this.setState(({ selected }) => {
 
             if(id === -1) {
@@ -44,7 +44,7 @@ class Panel extends Component {
         onMoveItems(data)
     }
     onHeaderButtonClick = data => {
-        const { onMoveItems } = this.props
+        const { onMoveItems }   = this.props
         onMoveItems(data)
         this.setState({ selected: [] })
     }
@@ -52,9 +52,11 @@ class Panel extends Component {
         const { panelData: { items } } = this.props
         return items
     }
-
     render() {
-        const { panelData: { source, routes, items } }  = this.props
+        const { panelData: { source,
+                             routes: { left, right },
+                             items
+                            } }                         = this.props
         const { unique, selected }                      = this.state
         const indeterminate                             = selected.length < items.length && selected.length > 0
 
@@ -76,12 +78,18 @@ class Panel extends Component {
                     </div>
                     <div className="d-flex justify-content-end panel-actions">
                         <div>
-                            <ButtonsView data={{
-                                onButtonClick: this.onHeaderButtonClick,
-                                ids: selected,
-                                source,
-                                routes
-                            }} />
+                            <ButtonsView
+                                onClickLeft={ left ? () => this.onHeaderButtonClick({   ids: selected,
+                                                                                        from: source,
+                                                                                        to: left
+                                                                                    })
+                                                    : undefined }
+                                onClickRight={ right ? () => this.onHeaderButtonClick({ ids: selected,
+                                                                                        from: source,
+                                                                                        to: right
+                                                                                    })
+                                                    : undefined }
+                            />
                         </div>
                     </div>
                 </div>
@@ -90,15 +98,20 @@ class Panel extends Component {
                                 <Row key={ item.id }
                                     item={ item }
                                     unique={ unique }
-                                    source={ source }
                                     checked={ selected.includes(item.id) }
                                     onCheckItem={ this.onCheckItem } >
-                                        <ButtonsView data={{
-                                            onButtonClick: this.onButtonClick,
-                                            ids: [ item.id ],
-                                            source,
-                                            routes
-                                        }} />
+                                        <ButtonsView
+                                            onClickLeft={ left ? () => this.onButtonClick({     ids: [ item.id ],
+                                                                                                from: source,
+                                                                                                to: left
+                                                                                        })
+                                                                    : undefined }
+                                            onClickRight={ right ? () => this.onButtonClick({   ids: [ item.id ],
+                                                                                                from: source,
+                                                                                                to: right
+                                                                                        })
+                                                                    : undefined }
+                                        />
                                 </Row>
                                 )) }
                 </ul>
@@ -106,7 +119,7 @@ class Panel extends Component {
         )
     }
 }
-   
+
 const mapDispatchToProps = dispatch => ({
     onMoveItems: data => dispatch(_moveItems(data))
 })

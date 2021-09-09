@@ -17,15 +17,4 @@ ReactDOM.render(
             </Router>
         </DataServiceProvider>
     </Provider>,
-    document.getElementById('root') );
-
-
-    /*
-    <Provider store={ store }>
-        <DataServiceProvider value={ dataService }>
-            <Router>
-                <App />
-            </Router>
-        </DataServiceProvider>
-    </Provider>,
-    */
+    document.getElementById('root') )
